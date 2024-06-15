@@ -13,7 +13,7 @@ const Signup = () => {
       {/* if there is a button in form, it will close the modal */}
       <Link to="/"><button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button></Link>
     </form>
-    <h3 className="font-bold text-lg">Login</h3>
+    <h3 className="font-bold text-lg">Signup</h3>
      {/* Name */}
     <div className='mt-4 space-y-2'>
         <span>Name</span>

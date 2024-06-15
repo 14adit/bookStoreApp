@@ -11,13 +11,18 @@ const Login = () => {
   } = useForm()
 
   const onSubmit = (data) => console.log(data)
+
+  const closeModal = () => {
+    document.getElementById('my_modal_3').close();
+  }
+
   return (
     <div>
 <dialog id="my_modal_3" className="modal">
   <div className="modal-box">
     <form method="dialog" onSubmit={handleSubmit(onSubmit)}>
       {/* if there is a button in form, it will close the modal */}
-      <Link to="/"><button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button></Link>
+      <Link to="/"><button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={closeModal} >✕</button></Link>
     <h3 className="font-bold text-lg">Login</h3>
      {/* Email */}
     <div className='mt-4 space-y-2'>
