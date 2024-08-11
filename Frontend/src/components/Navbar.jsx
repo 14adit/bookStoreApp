@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Outlet} from 'react-router-dom'
+import {Outlet, useNavigate} from 'react-router-dom'
 import Login from './Login';
 
 const Navbar = () => {
@@ -34,6 +34,24 @@ const Navbar = () => {
       window.removeEventListener('scroll',handleScroll)
     }
   },[])
+
+  const navigate = useNavigate();
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Debugging: Log local storage value
+    const loggedIn = JSON.parse(localStorage.getItem('Loggedin')) === true;
+    console.log('Is user logged in:', loggedIn);
+    setIsAuthenticated(loggedIn);
+  }, []);
+
+  const Logout = (e) =>{
+    localStorage.removeItem('Loggedin');
+    navigate(`/`);
+    // setIsAuthenticated(false);
+  }
+
     const NavItems = (
         <>
           <li><a href='/'>Home</a></li>
@@ -44,7 +62,7 @@ const Navbar = () => {
     );
   return (
     <>
-        <div className={`max-w-screen-2xl container mx-auto md:px-20 px-4 dark:bg-slate-800 dark:text-white fixed z-50 ${sticky ? "sticky-navbar shadow:md bg-base-200 duration-100 transition-all ease-in-out dark:bg-slate-400 dark:text-white" : ""}`}>
+        <div className={`max-w-screen-2xl container mx-auto md:px-20 px-4 dark:bg-slate-800 dark:text-white fixed z-50 ${sticky ? "sticky-navbar shadow:md bg-base-200 duration-100 transition-all ease-in-out dark:bg-slate-600 dark:text-white" : ""}`}>
         <div className="navbar">
   <div className="navbar-start">
     <div className="dropdown">
@@ -82,7 +100,8 @@ const Navbar = () => {
   
 </label>  
   <div className="">
-    <a className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-800 duration-700 cursor-pointer" onClick={() => document.getElementById("my_modal_3").showModal()}>Login</a>
+    {isAuthenticated && <button className="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-slate-800 duration-700 cursor-pointer" onClick={Logout}>Logout</button>}
+    {!isAuthenticated && <a className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-800 duration-700 cursor-pointer" onClick={() => document.getElementById("my_modal_3").showModal()}>Login</a>}
     <Login />
   </div>
 </div>

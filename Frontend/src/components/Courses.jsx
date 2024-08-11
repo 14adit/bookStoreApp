@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Cards from './Cards'
-import {Link} from "react-router-dom"
+import {Link, useParams} from "react-router-dom"
 import axios from 'axios'
 function Courses() {
   const [book,setBook] = useState([])
@@ -15,6 +15,19 @@ function Courses() {
        console.log("Error from showing books: ",error)
      })
   },[])
+   
+  const { id } = useParams()
+  const Delete = (id) => {
+    axios
+     .delete(`http://localhost:4002/api/books/${id}`)
+     .then((res) => {
+      setBook(book.filter(book => book._id !== id))
+      console.log("Book deleted successfully")
+     })
+     .catch((error) => {
+      console.log("Error Occuring while deleting the book: ", error)
+     })
+  }
   return (
     <>
      <div className='max-w-screen-2xl container mx-auto md:px-20 px-4'>
@@ -27,10 +40,14 @@ function Courses() {
        </div>
        <div className='mt-12 grid grid-cols-1 md:grid-cols-4'>
         {
-          book.map((item) => 
-            <Cards item={item} key={item.id} />
-          )
+          book.map((item) => (
+            <div>
+              <Cards item={item} key={item._id} />
+              <button onClick={()=>{Delete(item._id)}}>Delete</button>
+            </div>
+          ))
         }
+        
        </div>
      </div>
     </>

@@ -11,6 +11,14 @@ router.get("/",(req,res) => {
     .catch((error) => res.status(404).json("Error: ", error))
 })
 
+router.delete("/:id",(req,res) => {
+    Book.findByIdAndDelete(req.params.id, req.body)
+    .then((books) => {
+        res.json("Book deleted successfully")
+    })
+    .catch((error) => res.status(400).json("Error: ", error))
+})
+
 module.exports = router
 
 
